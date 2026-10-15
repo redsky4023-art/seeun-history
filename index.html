@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F6FA">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛵</text></svg>">
+<title>신항로 개척 · 역사 수행평가</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#F3F6FA; --card:#FFFFFF; --ink:#1B2340; --muted:#5E6782; --line:#DCE2EC; --grid:rgba(47,111,235,.07);
+  --his:#B45A12; --his-soft:#FDF0DC; --pro:#0F7FA6; --pro-soft:#DDF1F7; --con:#C8424B; --con-soft:#FCE8E6;
+  --ok:#0F9B83; --ok-soft:#DDF4EF;
+  --marker:#FFE45C; --shadow:0 1px 2px rgba(27,35,64,.06),0 6px 20px rgba(27,35,64,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#11151F; --card:#1A202E; --ink:#E8ECF5; --muted:#9AA3BA; --line:#2B3345; --grid:rgba(120,160,255,.06);
+    --his:#FFB547; --his-soft:#3A2A12; --pro:#5CC8E8; --pro-soft:#14303A; --con:#FF8A80; --con-soft:#3A1F1E;
+    --ok:#4DD3B8; --ok-soft:#15332E; --marker:#F2D64B;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#11151F; --card:#1A202E; --ink:#E8ECF5; --muted:#9AA3BA; --line:#2B3345; --grid:rgba(120,160,255,.06);
+  --his:#FFB547; --his-soft:#3A2A12; --pro:#5CC8E8; --pro-soft:#14303A; --con:#FF8A80; --con-soft:#3A1F1E;
+  --ok:#4DD3B8; --ok-soft:#15332E; --marker:#F2D64B;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+[hidden]{display:none!important}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--ink); font-family:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif; font-size:15.5px; line-height:1.7;
+  padding:env(safe-area-inset-top,0px) 16px env(safe-area-inset-bottom,0px);
+}
+.wrap{max-width:820px;margin:0 auto;padding-block:24px 64px;display:grid;gap:22px}
+h1,h2,h3{font-family:"Jua","Noto Sans KR",sans-serif;font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,6vw,38px);line-height:1.2}
+h1 .hl{background:linear-gradient(transparent 58%,var(--marker) 58%,var(--marker) 92%,transparent 92%);padding:0 2px;color:inherit}
+h2{font-size:22px}
+h3{font-size:18px}
+p{margin:0}
+.label{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+a{color:var(--pro)}
+.back{font-size:13.5px;color:var(--muted);text-decoration:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);display:grid;gap:12px}
+.step{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:12px;background:var(--his-soft);color:var(--his);border-radius:999px;padding:2px 10px;margin-bottom:4px}
+.pg{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-left:6px;white-space:nowrap;vertical-align:2px}
+mark{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 1px}
+b{font-weight:700}
+ul,ol{margin:0;padding-left:1.2em}
+li+li{margin-top:4px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+
+/* 오늘 할 일 */
+.plan{display:grid;gap:8px}
+.plan label{display:flex;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;background:var(--card)}
+.plan input{width:22px;height:22px;accent-color:var(--ok);flex:none}
+.plan .t{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}
+.plan label:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
+.plan label:has(input:checked) span:first-of-type{text-decoration:line-through;opacity:.7}
+.done-msg{font-family:"Jua",sans-serif;font-size:19px;color:var(--ok);text-align:center}
+
+/* 채점표 */
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.score div{border-radius:14px;padding:12px 14px;background:var(--his-soft)}
+.score b{display:block;font-family:"Jua",sans-serif;font-weight:400;font-size:17px;color:var(--his)}
+.score span{font-size:14px}
+
+/* 탐험가 */
+.explorers{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.ex{border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.ex .yr{font-family:"IBM Plex Mono",monospace;font-size:20px;color:var(--his)}
+.ex h3{margin:2px 0}
+.ex .who{font-size:12.5px;color:var(--muted)}
+.ex p{font-size:14px;line-height:1.55}
+.trick{background:var(--marker);color:#1B2340;border-radius:12px;padding:10px 14px;font-weight:500}
+
+.stat{display:flex;flex-wrap:wrap;gap:10px}
+.stat div{flex:1 1 200px;border-radius:14px;padding:12px 14px;background:var(--con-soft)}
+.stat .n{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--con);font-variant-numeric:tabular-nums}
+.diagram{overflow-x:auto}
+.diagram svg{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
+.diagram .box{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.diagram .nm{fill:var(--ink);font-family:"Jua",sans-serif;font-size:17px}
+.diagram .ar{stroke:var(--his);stroke-width:2.2;fill:none}
+.diagram .ah{fill:var(--his)}
+.diagram .lb{fill:var(--his);font-size:12.5px;font-weight:700}
+.diagram .lb.slave{fill:var(--con)}
+
+/* 카드 뒤집기 */
+.flash{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.flash button{font:inherit;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:64px}
+.flash button .a{display:block;font-family:"Jua",sans-serif;font-size:18px;color:var(--his);visibility:hidden}
+.flash button.open{border-color:var(--his);background:var(--his-soft)}
+.flash button.open .a{visibility:visible}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* 퀴즈 */
+.q{font-family:"Jua",sans-serif;font-size:20px;line-height:1.45}
+.opts{display:grid;gap:8px}
+.opts button{font:inherit;text-align:left;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 14px;cursor:pointer}
+.opts button.right{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.wrong{border-color:var(--con);background:var(--con-soft)}
+.opts button:disabled{cursor:default}
+.why{border-left:4px solid var(--ok);padding:6px 12px;background:var(--ok-soft);border-radius:0 10px 10px 0;font-size:14.5px}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.qnum{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* 논술 */
+.sides{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.side{border-radius:16px;padding:16px;display:grid;gap:8px;align-content:start}
+.side.pro{background:var(--pro-soft)} .side.con{background:var(--con-soft)}
+.side.pro h3{color:var(--pro)} .side.con h3{color:var(--con)}
+.side .lim{border-top:1px dashed currentColor;padding-top:8px;opacity:.95}
+.frame{display:grid;gap:10px}
+.frame .f{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.frame .f b{font-family:"Jua",sans-serif;font-weight:400;font-size:17px}
+.frame .f .sc{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--his);margin-left:6px}
+.frame textarea{font:inherit;font-size:15px;width:100%;min-height:72px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);color:var(--ink);resize:vertical}
+.starter{font-size:13.5px;color:var(--muted)}
+details{border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+details summary{cursor:pointer;font-family:"Jua",sans-serif;font-size:17px}
+details[open] summary{margin-bottom:8px}
+.essay p+p{margin-top:8px}
+.warn{background:var(--con-soft);border-radius:12px;padding:10px 14px;font-size:14px}
+.fix{background:var(--his-soft);border-radius:12px;padding:10px 14px;font-size:14px}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    
+    <div class="label">2학년 역사 · Ⅲ-(3) · 교과서 126~131쪽 · 학습지 주제 25·26</div>
+    <h1>내일 <span class="hl">신항로 개척</span> 수행평가</h1>
+    <p class="muted" style="margin-top:6px">일주일 쉬어서 하기 싫은 거 당연해. 딱 <b>40분</b>만 하자. 위에서부터 차례로 누르면서 내려가면 끝나.</p>
+  </header>
+
+  <section class="card" aria-labelledby="t-plan">
+    <h2 id="t-plan">오늘 할 일 네 가지</h2>
+    <div class="plan" id="plan">
+      <label><input type="checkbox" data-k="p1"><span>시험이 어떻게 나오는지 보기</span><span class="t">2분</span></label>
+      <label><input type="checkbox" data-k="p2"><span>이야기 다섯 장면 읽기</span><span class="t">10분</span></label>
+      <label><input type="checkbox" data-k="p3"><span>빈칸 카드 + 퀴즈 10문제</span><span class="t">10분</span></label>
+      <label><input type="checkbox" data-k="p4"><span>내 입장 고르고 답안 뼈대 채우기</span><span class="t">15분</span></label>
+    </div>
+    <p class="done-msg" id="doneMsg" hidden>끝! 이 정도면 내일 충분히 쓸 수 있어. 푹 자자 🌙</p>
+  </section>
+
+  <section class="card" aria-labelledby="t-exam">
+    <span class="step">1 · 시험은 이렇게 나와</span>
+    <h2 id="t-exam">수업 한 시간 동안 A4 종이에 글로 써</h2>
+    <p>준비물이 <b>교과서와 필기구</b>라고 했으니까 교과서 126~131쪽을 펴 놓고 쓸 수 있을 거야. 그러니까 다 외우지 않아도 돼. <mark>무슨 내용이 몇 쪽에 있는지</mark>, <mark>무슨 순서로 쓰는지</mark>만 알면 돼.</p>
+    <p>답안에 꼭 들어가야 하는 건 세 가지야. 하나에 5점씩, 모두 15점.</p>
+    <div class="score">
+      <div><b>① 과정을 정확히</b><span>왜 떠났고, 누가 어디로 갔는지 순서대로 쓰기</span></div>
+      <div><b>② 내 의견 + 자료 근거 2개</b><span>“나는 ~라고 생각한다”를 분명히 쓰고, 교과서 자료(그래프·지도)를 근거로 두 가지 이상 들기</span></div>
+      <div><b>③ 반대 입장의 한계</b><span>내가 고르지 않은 입장은 무엇을 놓치는지 따져서 쓰기</span></div>
+    </div>
+    <p class="warn">⚠️ 백지로 내면 20%만 받고, 남의 글을 베끼면 <b>0점</b>이야. 아래 예시 답안은 모양만 보고, 내일은 꼭 <b>내 말로</b> 써.</p>
+  </section>
+
+  <section class="card" aria-labelledby="t-story">
+    <span class="step">2 · 이야기 다섯 장면</span>
+    <h2 id="t-story">신항로 개척, 한 편의 이야기로 읽기</h2>
+
+    <h3>① 왜 바다로 나갔을까? <span class="pg">126쪽</span></h3>
+    <ul>
+      <li>유럽 사람들은 아시아의 <b>향신료(후추)·면직물·비단·도자기</b>를 정말 갖고 싶어 했어.</li>
+      <li>그런데 이 물건들은 <mark>이슬람 상인</mark>과 <mark>이탈리아 상인</mark>을 거쳐 들어와서 <b>너무 비쌌어.</b> 그래서 “아시아로 바로 가는 바닷길을 찾자!”가 된 거야.</li>
+      <li>마르코 폴로의 『<b>동방견문록</b>』, 동쪽에 크리스트교 왕국이 있다는 전설도 호기심을 키웠어.</li>
+      <li>이슬람 세계에서 배운 <b>지리학·천문학·배 만드는 기술·항해 기술</b> 덕분에 먼바다로 나갈 수 있었어.</li>
+      <li>앞장선 나라는 <mark>포르투갈과 에스파냐</mark>야. 대서양 쪽에 있어서 지중해 무역으로 돈을 거의 못 벌었거든.</li>
+    </ul>
+
+    <h3>② 누가 어디로 갔을까? <span class="pg">126쪽 지도</span></h3>
+    <div class="explorers">
+      <div class="ex"><div class="yr">1488</div><h3>바르톨로메우 디아스</h3><div class="who">포르투갈</div><p>아프리카 남쪽 끝 <b>희망봉</b>까지 감</p></div>
+      <div class="ex"><div class="yr">1492</div><h3>콜럼버스</h3><div class="who">에스파냐의 지원</div><p>서쪽으로 가면 인도가 나올 줄 알았는데 <b>아메리카</b>에 도착함 (그래서 ‘서인도 제도’라는 이름이 생김)</p></div>
+      <div class="ex"><div class="yr">1498</div><h3>바스쿠 다가마</h3><div class="who">포르투갈</div><p>희망봉을 돌아 인도 <b>캘리컷</b>에 도착함</p></div>
+      <div class="ex"><div class="yr">1519~1522</div><h3>마젤란 일행</h3><div class="who">에스파냐</div><p>아메리카 남쪽 끝을 지나 태평양을 건넘. 마젤란은 필리핀에서 죽었지만 남은 탐험대가 돌아와 <b>세계 일주</b> 성공</p></div>
+    </div>
+    <p class="trick">외우는 법: 순서는 <b>“디·콜·다·마”</b>. 포르투갈은 <b>아프리카를 돌아 동쪽으로</b>, 에스파냐는 <b>대서양을 건너 서쪽으로</b> 갔어.</p>
+
+    <h3>③ 아메리카는 어떻게 됐을까? <span class="pg">127~129쪽</span></h3>
+    <ul>
+      <li>원래 아메리카에는 <mark>아스테카 제국</mark>과 <mark>잉카 제국</mark>이 번성하고 있었어.</li>
+      <li>에스파냐가 <b>말과 총</b>으로 두 제국을 정복했고, 다른 유럽 나라들도 원주민을 몰아내고 식민지를 세웠어.</li>
+      <li>유럽인은 <b>금·은 광산</b>을 열고, 사탕수수·담배를 키우는 대농장(<b>플랜테이션</b>)을 만들었어.</li>
+      <li>원주민은 광산과 대농장에서 강제로 일했고, <b>유럽에서 건너온 전염병(천연두 등)</b>까지 퍼져서 인구가 확 줄었어.</li>
+    </ul>
+    <div class="stat" aria-label="원주민 인구 그래프">
+      <div><span class="small">멕시코 고원 원주민</span><div class="n">2,500만 → 107만</div><span class="small">100년 만에 처음의 약 4%만 남음</span></div>
+      <div><span class="small">안데스 고원 원주민</span><div class="n">887만 → 67만</div><span class="small">처음의 약 8%만 남음</span></div>
+    </div>
+    <p class="small muted">↑ 학습지에 있는 그래프야(1520년쯤 → 1620년쯤). <b>논술 근거로 쓰기 가장 좋은 자료!</b></p>
+    <ul>
+      <li>일할 원주민이 줄자, 유럽인은 <mark>아프리카 사람들을 노예로 끌고 와서</mark> 대신 일을 시켰어.</li>
+    </ul>
+
+    <h3>④ 유럽은 어떻게 됐을까? <span class="pg">130쪽</span></h3>
+    <p><b>삼각 무역</b>: 대서양을 사이에 두고 세 대륙이 세모 모양으로 물건을 주고받았어.</p>
+    <div class="diagram" role="img" aria-label="삼각 무역: 유럽에서 아프리카로 총기·직물, 아프리카에서 아메리카로 흑인 노예, 아메리카에서 유럽으로 담배·설탕·면화">
+      <svg viewBox="0 0 440 250" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <rect class="box" x="300" y="16" width="110" height="40" rx="10"/><text class="nm" x="355" y="43" text-anchor="middle">유럽</text>
+        <rect class="box" x="20" y="100" width="110" height="40" rx="10"/><text class="nm" x="75" y="127" text-anchor="middle">아메리카</text>
+        <rect class="box" x="300" y="190" width="110" height="40" rx="10"/><text class="nm" x="355" y="217" text-anchor="middle">아프리카</text>
+        <path class="ar" d="M355,60 L355,184" marker-end="url(#arr)"/>
+        <text class="lb" x="364" y="120">총기·직물</text>
+        <path class="ar" d="M296,205 L134,138" marker-end="url(#arr)"/>
+        <text class="lb slave" x="168" y="196">흑인 노예</text>
+        <path class="ar" d="M134,108 L296,44" marker-end="url(#arr)"/>
+        <text class="lb" x="140" y="62">담배·설탕·면화</text>
+      </svg>
+    </div>
+    <ul>
+      <li>아메리카에서 <b>감자·옥수수·고추·토마토·고구마·담배</b>가 유럽과 아시아로 퍼졌어. 반대로 사탕수수·커피·바나나·포도·올리브는 아메리카로 갔어. (우리 김치에 들어가는 고추도 이때 퍼진 거야!)</li>
+      <li>아메리카의 <mark>금·은</mark>이 유럽으로 엄청 들어오자 <mark>물가가 크게 올랐어.</mark></li>
+      <li>장사와 무역으로 큰돈을 버는 사람이 늘어서, 농사보다 상공업·무역에 투자하는 흐름이 커졌어. 이것이 <mark>상업 혁명</mark>이야.</li>
+      <li>투자 규모가 커지면서 <mark>주식회사</mark>가 생기고, 어음·보험 같은 금융 제도도 갖춰졌어.</li>
+    </ul>
+
+    <h3>⑤ 세계가 하나로 이어지다 <span class="pg">131쪽</span></h3>
+    <ul>
+      <li>아시아에는 원래 중국·동남아시아·인도를 잇는 바다 무역길이 있었어.</li>
+      <li>포르투갈·에스파냐에 이어 네덜란드·영국도 <mark>동인도 회사</mark>를 만들어 이 무역에 뛰어들었어.</li>
+      <li><b>중국·일본</b>과는 외교 협상으로 무역 허락을 받았고, <b>동남아시아</b>는 무력으로 식민지로 만들었어.</li>
+      <li>유럽은 아메리카에서 얻은 <mark>은</mark>으로 인도 면직물, 동남아 향신료, 중국 차·도자기·비단을 샀어.</li>
+      <li>그 결과 교역망이 <b>전 세계로</b> 넓어졌고, 은이 아시아로 흘러가 <b>중국에 엄청난 은</b>이 쌓였어.</li>
+    </ul>
+
+    <p class="fix">✏️ 학습지 고칠 곳: 15쪽 첫 번째 질문 답의 「천연병」은 <b>전염병(천연두)</b>이야. 두 번째 질문 「원주민 대신」 뒤에는 <b>“아프리카에서 끌고 온 흑인 노예를 일하게 했다”</b>까지 쓰면 완성이야.</p>
+  </section>
+
+  <section class="card" aria-labelledby="t-flash">
+    <span class="step">3 · 빈칸 카드</span>
+    <h2 id="t-flash">누르면 답이 나와</h2>
+    <p class="small muted">학습지 빈칸에 나왔던 것들이야. 답을 먼저 말해 보고 눌러서 확인해.</p>
+    <div class="flash" id="flash"></div>
+    <div class="row"><button class="btn" id="flashAll" type="button">다 열기</button><button class="btn" id="flashReset" type="button">다 닫기</button></div>
+  </section>
+
+  <section class="card" aria-labelledby="t-quiz">
+    <span class="step">3 · 퀴즈 10문제</span>
+    <h2 id="t-quiz">하나씩 풀어 보자</h2>
+    <div id="quiz">
+      <p class="q" id="qText"></p>
+      <div class="opts" id="qOpts" style="margin-top:12px"></div>
+      <p class="why" id="qWhy" hidden style="margin-top:10px"></p>
+      <div class="qfoot" style="margin-top:12px">
+        <span class="qnum" id="qNum"></span>
+        <button class="btn primary" id="qNext" type="button" hidden>다음 →</button>
+      </div>
+    </div>
+    <div id="qEnd" hidden>
+      <p class="q" id="qScore"></p>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" id="qWrongOnly" type="button">틀린 것만 다시</button>
+        <button class="btn" id="qRestart" type="button">처음부터</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="t-essay">
+    <span class="step">4 · 논술 준비</span>
+    <h2 id="t-essay">신항로 개척, 좋은 일이었을까? 나쁜 일이었을까?</h2>
+    <p>둘 중 <b>하나를 골라.</b> 정답은 없어. 근거를 잘 대면 어느 쪽이든 만점이야. 고르기 어려우면 <b>‘부정’</b>을 추천해. 그래프 숫자가 분명해서 근거 쓰기가 쉬워.</p>
+    <div class="sides">
+      <div class="side pro">
+        <h3>👍 긍정: 세계를 하나로 연결했다</h3>
+        <p><b>근거로 쓸 자료</b></p>
+        <ol>
+          <li><b>세계 교역망</b><span class="pg">131쪽</span> 아메리카 은으로 아시아 물건을 사면서 유럽·아메리카·아프리카·아시아가 하나의 교역망으로 이어짐</li>
+          <li><b>작물 교환 그림</b><span class="pg">130쪽</span> 감자·옥수수·고추·토마토가 세계로 퍼져 많은 사람의 식탁이 바뀜</li>
+          <li><b>상업 혁명</b><span class="pg">130쪽</span> 주식회사·보험·어음 같은 제도가 생겨 오늘날 경제의 바탕이 됨</li>
+        </ol>
+        <p class="lim"><b>부정 입장의 한계</b> (긍정을 고르면 이걸 써)<br>피해만 보면 이후 세계가 연결되어 작물·기술·문화가 오가고 오늘날 세계화의 출발점이 된 점을 놓친다. 또 원주민·노예의 피해는 <b>바닷길이 열린 것 자체</b>보다 그 길로 간 유럽인들의 <b>정복과 노예 무역</b> 때문이므로 둘은 나누어 봐야 한다.</p>
+      </div>
+      <div class="side con">
+        <h3>👎 부정: 다른 대륙에 큰 희생을 남겼다</h3>
+        <p><b>근거로 쓸 자료</b></p>
+        <ol>
+          <li><b>원주민 인구 그래프</b><span class="pg">학습지 15쪽</span> 멕시코 고원 원주민이 2,500만 명에서 107만 명으로 줄어 약 4%만 남음. 강제 노동과 전염병 때문</li>
+          <li><b>삼각 무역 지도</b><span class="pg">130쪽</span> 아프리카 사람들이 노예가 되어 물건처럼 아메리카로 팔려 감</li>
+          <li><b>아메리카의 변화</b><span class="pg">127~129쪽</span> 아스테카·잉카 제국이 무너지고 숲이 대규모로 파괴됨</li>
+        </ol>
+        <p class="lim"><b>긍정 입장의 한계</b> (부정을 고르면 이걸 써)<br>‘교류가 늘고 경제가 발전했다’는 것은 <b>유럽의 입장</b>에서만 본 것이다. 그 이익은 원주민의 강제 노동과 아프리카 노예의 희생 위에서 얻은 것이라 공평한 교류가 아니라 일방적인 빼앗기였다. 이익은 유럽에 몰렸고 아메리카와 아프리카는 큰 피해를 입었다.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:6px">답안 뼈대: 이 순서로 쓰면 돼</h3>
+    <p class="small muted">아래 칸에 짧게 키워드라도 적어 봐. 이 휴대폰에 저장돼서 내일 아침에 다시 볼 수 있어.</p>
+    <div class="frame" id="frame">
+      <div class="f"><b>1. 신항로 개척의 과정<span class="sc">① 5점</span></b>
+        <span class="starter">시작 문장: “15세기 유럽에서는 아시아의 향신료 등이 인기였지만, 이슬람·이탈리아 상인을 거쳐 비쌌다. 그래서 …”</span>
+        <span class="starter">→ 배경 2줄 + 디아스·콜럼버스·다가마·마젤란 각각 1줄(연도·간 곳)</span>
+        <textarea data-k="e1" placeholder="키워드만 적어도 OK: 비싼 향신료 → 포르투갈·에스파냐 → 디아스 희망봉 …"></textarea></div>
+      <div class="f"><b>2. 나의 입장 (한 문장)<span class="sc">② 5점</span></b>
+        <span class="starter">“나는 신항로 개척이 ___ 사건이었다고 생각한다.”</span>
+        <textarea data-k="e2" placeholder="나는 신항로 개척이 …"></textarea></div>
+      <div class="f"><b>3. 근거 ① (자료 이름 + 숫자/내용)<span class="sc">②</span></b>
+        <span class="starter">“교과서 ○쪽의 ___ 자료를 보면 ___. 이것은 ___을 보여 준다.”</span>
+        <textarea data-k="e3"></textarea></div>
+      <div class="f"><b>4. 근거 ② (다른 자료)<span class="sc">②</span></b>
+        <span class="starter">“또한 ___ 자료에서 ___. 따라서 ___.”</span>
+        <textarea data-k="e4"></textarea></div>
+      <div class="f"><b>5. 반대 입장의 한계<span class="sc">③ 5점</span></b>
+        <span class="starter">“물론 ___라는 의견도 있다. 하지만 이 의견은 ___을 놓치고 있다. 왜냐하면 ___.”</span>
+        <textarea data-k="e5"></textarea></div>
+      <div class="f"><b>6. 마무리 (한두 문장)</b>
+        <span class="starter">“그러므로 신항로 개척은 ___. 우리는 ___ 해야 한다.”</span>
+        <textarea data-k="e6"></textarea></div>
+    </div>
+
+    <details>
+      <summary>예시 답안 보기 (부정 입장) · 모양만 참고</summary>
+      <div class="essay small">
+        <p>15세기 유럽에서는 아시아의 향신료, 비단, 도자기 등이 인기가 많았다. 하지만 이 물건들은 이슬람 상인과 이탈리아 상인을 거쳐 들어와 값이 비쌌다. 그래서 지중해 무역에서 소외되어 있던 포르투갈과 에스파냐가 새로운 바닷길을 찾아 나섰다. 포르투갈의 디아스는 1488년 아프리카 남쪽 끝 희망봉에 도착했고, 바스쿠 다가마는 1498년 희망봉을 돌아 인도의 캘리컷에 닿았다. 에스파냐의 지원을 받은 콜럼버스는 1492년 서쪽으로 항해해 아메리카에 도착했고, 마젤란 일행은 1519년부터 1522년까지 세계 일주에 성공했다.</p>
+        <p>나는 신항로 개척이 유럽에는 이익이었지만, 아메리카와 아프리카에는 큰 희생을 남긴 사건이었다고 생각한다.</p>
+        <p>첫째, 원주민 인구 그래프를 보면 멕시코 고원의 원주민은 2,500만 명에서 약 100년 만에 107만 명으로 줄어 약 4%만 남았다. 유럽인이 광산과 대농장에서 원주민에게 강제 노동을 시키고, 유럽에서 들어온 천연두 같은 전염병이 퍼졌기 때문이다.</p>
+        <p>둘째, 삼각 무역 지도를 보면 유럽은 아프리카에 총과 직물을 주고 흑인을 노예로 데려가 아메리카의 농장에서 일하게 했다. 사람을 물건처럼 사고판 것이다.</p>
+        <p>물론 신항로 개척으로 세계가 하나로 연결되고 상업 혁명이 일어나 경제가 발전했다는 의견도 있다. 하지만 이 의견은 유럽의 입장에서만 본 것이다. 유럽이 얻은 금과 은, 설탕과 담배는 원주민과 노예의 희생으로 만들어진 것이어서, 공평한 교류가 아니라 한쪽이 빼앗은 것에 가깝다.</p>
+        <p>그러므로 신항로 개척은 세계를 연결했지만 그 대가가 너무 컸던 사건이다. 역사를 볼 때는 이익을 얻은 쪽뿐 아니라 피해를 입은 사람들의 입장에서도 바라봐야 한다.</p>
+      </div>
+    </details>
+    <details>
+      <summary>예시 답안 보기 (긍정 입장) · 모양만 참고</summary>
+      <div class="essay small">
+        <p>(과정 문단은 부정 입장 예시와 같아.)</p>
+        <p>나는 신항로 개척이 세계를 처음으로 하나로 연결한 중요한 사건이었다고 생각한다.</p>
+        <p>첫째, 작물 교환 그림을 보면 아메리카의 감자, 옥수수, 고추, 토마토가 유럽과 아시아로 전해졌다. 감자와 옥수수는 많은 사람의 식량이 되었고, 고추는 우리나라까지 전해져 오늘날 김치에도 쓰인다.</p>
+        <p>둘째, 세계 교역망 지도를 보면 유럽은 아메리카의 은으로 인도의 면직물, 동남아시아의 향신료, 중국의 차와 도자기를 샀다. 이렇게 네 대륙이 하나의 교역망으로 이어졌고, 주식회사와 보험 같은 제도도 이때 생겨 오늘날 경제의 바탕이 되었다.</p>
+        <p>물론 원주민 인구가 크게 줄고 아프리카 사람들이 노예가 된 것을 이유로 신항로 개척을 나쁘게 보는 의견도 있다. 하지만 이 의견은 그 뒤 세계가 서로 물건과 문화를 주고받으며 오늘날 세계화의 출발점이 된 점을 놓치고 있다. 또 그 피해는 바닷길이 열린 것 자체보다 그 길을 이용한 유럽인들의 정복과 노예 무역 때문이므로 둘은 나누어 평가해야 한다.</p>
+        <p>그러므로 신항로 개척은 세계사의 큰 전환점이었다. 다만 그 과정에서 생긴 희생도 함께 기억해야 한다.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="card" aria-labelledby="t-morning">
+    <h2 id="t-morning">내일 아침 3분 체크</h2>
+    <ul>
+      <li>순서: <b>디(1488 희망봉) · 콜(1492 아메리카) · 다(1498 캘리컷) · 마(1519~22 세계 일주)</b></li>
+      <li>숫자 하나: <b>2,500만 → 107만 (약 4%)</b></li>
+      <li>세 가지 꼭 쓰기: <b>과정 · 내 의견 + 근거 2개 · 반대 입장의 한계</b></li>
+      <li>교과서 쪽수: 배경·탐험 126 / 아메리카 127~129 / 삼각 무역·상업 혁명 130 / 세계 교역망 131</li>
+    </ul>
+  </section>
+
+</main>
+<script>
+(function(){
+  var store = {
+    get:function(k){try{return localStorage.getItem('his25:'+k)}catch(e){return null}},
+    set:function(k,v){try{localStorage.setItem('his25:'+k,v)}catch(e){}}
+  };
+
+  // 오늘 할 일
+  var boxes = document.querySelectorAll('#plan input');
+  function planDone(){
+    var all = true; boxes.forEach(function(b){ if(!b.checked) all=false; });
+    document.getElementById('doneMsg').hidden = !all;
+  }
+  boxes.forEach(function(b){
+    b.checked = store.get(b.dataset.k) === '1';
+    b.addEventListener('change', function(){ store.set(b.dataset.k, b.checked?'1':'0'); planDone(); });
+  });
+  planDone();
+
+  // 빈칸 카드
+  var CARDS = [
+    ['아시아 물건이 유럽에서 비쌌던 까닭: ( ) 상인과 ( ) 상인을 거쳐서','이슬람 · 이탈리아'],
+    ['유럽인의 호기심을 키운 마르코 폴로의 책','『동방견문록』'],
+    ['신항로 개척에 앞장선 대서양 연안의 두 나라','포르투갈 · 에스파냐'],
+    ['포르투갈이 돌아간 아프리카 남쪽 끝','희망봉'],
+    ['에스파냐가 건넌 바다 → 도착한 대륙 → 이후 건넌 바다','대서양 → 아메리카 → 태평양'],
+    ['유럽인이 오기 전 아메리카에 있던 두 제국','아스테카 · 잉카'],
+    ['유럽인이 아메리카에서 캔 것','금 · 은'],
+    ['사탕수수·담배를 키운 대농장','플랜테이션'],
+    ['원주민 인구가 줄어든 까닭 두 가지','강제 노동 · 전염병(천연두)'],
+    ['원주민 대신 일하게 한 사람들','아프리카에서 끌려온 흑인 노예'],
+    ['대서양을 중심으로 유럽·아메리카·아프리카를 잇는 무역','삼각 무역'],
+    ['금·은이 유럽에 많이 들어와서 생긴 일','물가가 크게 오름'],
+    ['농업보다 상공업·무역에 투자하게 된 변화','상업 혁명'],
+    ['투자 규모가 커지며 등장한 기업 형태','주식회사 (+ 어음·보험)'],
+    ['네덜란드·영국이 아시아 무역에 참여하려고 만든 회사','동인도 회사'],
+    ['유럽이 아시아 물건을 살 때 쓴 것 → 결국 어디로?','아메리카의 은 → 아시아(중국)']
+  ];
+  var flash = document.getElementById('flash');
+  CARDS.forEach(function(c){
+    var b = document.createElement('button'); b.type='button';
+    b.innerHTML = '<span></span><span class="a"></span>';
+    b.firstChild.textContent = c[0]; b.lastChild.textContent = c[1];
+    b.addEventListener('click', function(){ b.classList.toggle('open'); });
+    flash.appendChild(b);
+  });
+  document.getElementById('flashAll').onclick = function(){ flash.querySelectorAll('button').forEach(function(b){b.classList.add('open')}) };
+  document.getElementById('flashReset').onclick = function(){ flash.querySelectorAll('button').forEach(function(b){b.classList.remove('open')}) };
+
+  // 퀴즈
+  var QS = [
+    {q:'유럽에서 아시아의 향신료가 비쌌던 까닭은?', a:'이슬람 상인과 이탈리아 상인을 거쳐 들어와서', w:['아시아에서 향신료가 잘 자라지 않아서','유럽 왕이 세금을 많이 매겨서','배로만 옮길 수 있어서'], why:'중간 상인을 두 번 거치니 값이 비쌌어. 그래서 직접 가는 바닷길을 찾은 거야. (126쪽)'},
+    {q:'신항로 개척에 앞장선 두 나라는?', a:'포르투갈 · 에스파냐', w:['영국 · 프랑스','이탈리아 · 독일','네덜란드 · 영국'], why:'대서양 연안에 있어서 지중해 무역의 이익을 거의 못 보던 나라들이야.'},
+    {q:'아프리카 희망봉을 거쳐 인도 캘리컷에 도착한 사람은?', a:'바스쿠 다가마', w:['바르톨로메우 디아스','콜럼버스','마젤란'], why:'디아스는 희망봉까지, 다가마는 희망봉을 돌아 인도까지(1498).'},
+    {q:'서쪽으로 가면 인도가 나올 거라 믿고 항해해 아메리카에 도착한 사람은?', a:'콜럼버스', w:['바스쿠 다가마','마젤란','마르코 폴로'], why:'그래서 그곳에 ‘서인도 제도’라는 이름이 붙었어(1492).'},
+    {q:'처음으로 세계 일주에 성공한 탐험대는?', a:'마젤란 일행', w:['콜럼버스 일행','디아스 일행','다가마 일행'], why:'마젤란은 필리핀에서 죽었지만 남은 탐험대가 에스파냐로 돌아왔어(1519~1522).'},
+    {q:'아메리카 원주민 인구가 크게 줄어든 까닭으로 알맞은 것은?', a:'광산·대농장의 강제 노동과 유럽에서 온 전염병', w:['큰 지진과 화산 폭발','원주민끼리의 전쟁만','아시아로 많이 이주해서'], why:'멕시코 고원 원주민은 2,500만 명 → 107만 명. 논술 근거로 꼭 쓰자!'},
+    {q:'삼각 무역에서 아프리카에서 아메리카로 보내진 것은?', a:'흑인 노예', w:['총기와 직물','담배와 설탕','금과 은'], why:'유럽 → 아프리카: 총기·직물 / 아프리카 → 아메리카: 노예 / 아메리카 → 유럽: 담배·설탕·면화'},
+    {q:'아메리카의 금·은이 유럽에 대량으로 들어오면서 생긴 일은?', a:'물가가 크게 올랐다', w:['물가가 크게 내렸다','농업에 투자가 늘었다','무역이 줄었다'], why:'돈(금·은)이 많아지니 물건값이 올랐어. 상공업자는 큰 이익을 얻었어.'},
+    {q:'유럽 상인이 아시아 물건을 살 때 쓰고, 결국 중국에 많이 쌓인 것은?', a:'은', w:['금','설탕','향신료'], why:'아메리카의 은이 전 세계를 돌아 아시아, 특히 중국으로 흘러들었어. (131쪽)'},
+    {q:'아메리카에서 유럽·아시아로 전해진 작물이 아닌 것은?', a:'커피', w:['감자','옥수수','고추'], why:'커피는 반대로 아메리카로 건너간 작물이야. 감자·옥수수·고추·토마토가 아메리카 원산!'}
+  ];
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  var order=[], idx=0, right=0, wrong=[];
+  var qText=document.getElementById('qText'), qOpts=document.getElementById('qOpts'), qWhy=document.getElementById('qWhy'),
+      qNum=document.getElementById('qNum'), qNext=document.getElementById('qNext'), quiz=document.getElementById('quiz'), qEnd=document.getElementById('qEnd');
+  function start(list){ order=list; idx=0; right=0; wrong=[]; quiz.hidden=false; qEnd.hidden=true; show(); }
+  function show(){
+    var it = QS[order[idx]];
+    qText.textContent = it.q; qWhy.hidden = true; qNext.hidden = true;
+    qNum.textContent = (idx+1)+' / '+order.length+' · 맞힌 개수 '+right;
+    qOpts.innerHTML = '';
+    shuffle([it.a].concat(it.w)).forEach(function(t){
+      var b=document.createElement('button'); b.type='button'; b.textContent=t;
+      b.onclick=function(){
+        qOpts.querySelectorAll('button').forEach(function(x){ x.disabled=true; if(x.textContent===it.a) x.classList.add('right'); });
+        if(t===it.a){ right++; } else { b.classList.add('wrong'); wrong.push(order[idx]); }
+        qWhy.textContent = (t===it.a?'⭕ 맞았어! ':'❌ 아쉽다. ')+it.why; qWhy.hidden=false;
+        qNum.textContent = (idx+1)+' / '+order.length+' · 맞힌 개수 '+right;
+        qNext.textContent = idx+1<order.length ? '다음 →' : '결과 보기';
+        qNext.hidden=false; qNext.focus();
+      };
+      qOpts.appendChild(b);
+    });
+  }
+  qNext.onclick=function(){ idx++; if(idx<order.length){ show(); } else { end(); } };
+  function end(){
+    quiz.hidden=true; qEnd.hidden=false;
+    var n=order.length;
+    document.getElementById('qScore').textContent = n+'문제 중 '+right+'개 맞혔어! ' + (right===n ? '완벽해 🎉' : right>=n-2 ? '거의 다 왔어 👍' : '틀린 것만 한 번 더 보자 💪');
+    document.getElementById('qWrongOnly').hidden = wrong.length===0;
+  }
+  document.getElementById('qWrongOnly').onclick=function(){ start(shuffle(wrong)); };
+  document.getElementById('qRestart').onclick=function(){ start(shuffle(QS.map(function(_,i){return i}))); };
+  start(shuffle(QS.map(function(_,i){return i})));
+
+  // 답안 뼈대 저장
+  document.querySelectorAll('#frame textarea').forEach(function(t){
+    var v = store.get(t.dataset.k); if(v) t.value = v;
+    t.addEventListener('input', function(){ store.set(t.dataset.k, t.value); });
+  });
+})();
+</script>
+</body>
+</html>
